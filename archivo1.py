@@ -1,18 +1,30 @@
+# Librerías
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
 
-#Precio del Bitcoin con Web Scraping (Python y Selenium)
 
-PATH = 'C:/chrome_webdriver/chromedriver.exe'
+# Opciones de navegación
+options =  webdriver.FirefoxOptions()
+options.add_argument('--start-maximized')
+options.add_argument('--disable-extensions')
+# Esta es la ruta del driver del navegador, sea chrome o firefox
+driver_path = 'C:/firefox_webdriver/geckodriver.exe'
 
-driver = webdriver.Chrome(PATH)
-
-driver.get("https://es.investing.com/crypto/bitcoin")
+driver = webdriver.Firefox(executable_path=driver_path, options=options)
 
 time.sleep(5)
 
-precioBTC = driver.find_element_by_xpath('//*[@id="last_last"]')
 
-print('Precio del Bitcoin: '+ precioBTC.text)
 
-driver.quit()
+# Inicializamos el navegador
+# Relacionando la pagina a realizar el scraping
+driver.get("")
+
+#Escogemos la forma en que deseamos acceder, en este caso, por xpath, puedes usar por id, class, etc.
+WebDriverWait(driver, 5)\
+    .until(EC.element_to_be_clickable((By.XPATH('/html/body/nav/div/div/ul/li[5]/a'))))\
+    .click()
+
